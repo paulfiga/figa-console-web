@@ -37,6 +37,9 @@ import { closeSidebar } from '../utils/utils';
 
 import { signOut,useSession } from "next-auth/react"
 
+import { setPage, PAGE_ID } from "@/stores/currentPageSlice"
+import { useSelector, useDispatch } from 'react-redux'
+
 function Toggler({
   defaultExpanded = false,
   renderToggle,
@@ -64,6 +67,8 @@ function Toggler({
 
 export default function Sidebar() {
   const { data: session, status } = useSession()
+  const currentPage = useSelector((state) => state.currentPage.value)
+  const dispatch = useDispatch()
 
   return (
     <Sheet
@@ -155,7 +160,10 @@ export default function Sidebar() {
           </ListItem> */}
 
           <ListItem>
-            <ListItemButton>
+            <ListItemButton
+              selected={currentPage===PAGE_ID.DASHBOARD}
+              onClick={()=>dispatch(setPage(PAGE_ID.DASHBOARD))}
+            >
               <DashboardRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Dashboard</Typography>
@@ -164,7 +172,10 @@ export default function Sidebar() {
           </ListItem>
 
           <ListItem>
-            <ListItemButton selected>
+            <ListItemButton 
+              selected={currentPage===PAGE_ID.DOCUMENTS}
+              onClick={()=>dispatch(setPage(PAGE_ID.DOCUMENTS))}
+            >
               <FolderSharedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Documents</Typography>
@@ -211,9 +222,8 @@ export default function Sidebar() {
                 4
               </Chip>
             </ListItemButton>
-          </ListItem> */}
-
-          {/* <ListItem nested>
+          </ListItem> 
+          <ListItem nested>
             <Toggler
               renderToggle={({ open, setOpen }) => (
                 <ListItemButton onClick={() => setOpen(!open)}>
