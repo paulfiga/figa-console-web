@@ -5,8 +5,9 @@ import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 
 import Sidebar from '@/components/Sidebar';
-import Dashboard from '@/components/Dashboard';
 import Header from '@/components/Header';
+import Dashboard from '@/components/Dashboard';
+import GoogleDrive from '@/components/GoogleDrive';
 
 import { useSession } from "next-auth/react"
 import { useSelector } from 'react-redux'
@@ -14,7 +15,8 @@ import { PAGE_ID } from '@/stores/currentPageSlice';
 
 function page(currentPage) {
   switch(currentPage) {
-    case PAGE_ID.DASHBOARD: return <Dashboard/>
+    case PAGE_ID.DASHBOARD: return <Dashboard />
+    case PAGE_ID.GOOGLE_DRIVE: return <GoogleDrive />
     default: return null
   }
 }

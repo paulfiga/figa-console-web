@@ -20,6 +20,8 @@ export const currentPageSlice = createSlice({
 export const PAGE_ID = {
   DASHBOARD: 0,
   DOCUMENTS: 1,
+  GOOGLE_DRIVE: 2,
+  MSONE_DRIVE: 3,
 }
 
 // Action creators are generated for each case reducer function

@@ -199,10 +199,16 @@ export default function Sidebar() {
             >
               <List sx={{ gap: 0.5 }}>
                 <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton>Google Drive</ListItemButton>
+                  <ListItemButton
+                    selected={currentPage===PAGE_ID.GOOGLE_DRIVE}
+                    onClick={()=>dispatch(setPage(PAGE_ID.GOOGLE_DRIVE))}
+                  >Google Drive</ListItemButton>
                 </ListItem>
                 <ListItem>
-                  <ListItemButton>One Drive</ListItemButton>
+                  <ListItemButton
+                    selected={currentPage===PAGE_ID.MSONE_DRIVE}
+                    onClick={()=>dispatch(setPage(PAGE_ID.MSONE_DRIVE))}
+                  >One Drive</ListItemButton>
                 </ListItem>
               </List>
             </Toggler>
