@@ -29,9 +29,13 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import BrightnessAutoRoundedIcon from '@mui/icons-material/BrightnessAutoRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import StorageIcon from '@mui/icons-material/Storage';
 
 import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from '../utils/utils';
+
+import { signOut,useSession } from "next-auth/react"
 
 function Toggler({
   defaultExpanded = false,
@@ -59,6 +63,8 @@ function Toggler({
 }
 
 export default function Sidebar() {
+  const { data: session, status } = useSession()
+
   return (
     <Sheet
       className="Sidebar"
@@ -115,10 +121,10 @@ export default function Sidebar() {
         <IconButton variant="soft" color="primary" size="sm">
           <BrightnessAutoRoundedIcon />
         </IconButton>
-        <Typography level="title-lg">Acme Co.</Typography>
+        <Typography level="title-lg">Figa.ai</Typography>
         <ColorSchemeToggle sx={{ ml: 'auto' }} />
       </Box>
-      <Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" />
+      {/* <Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" /> */}
       <Box
         sx={{
           minHeight: 0,
@@ -139,14 +145,14 @@ export default function Sidebar() {
             '--ListItem-radius': (theme) => theme.vars.radius.sm,
           }}
         >
-          <ListItem>
+          {/* <ListItem>
             <ListItemButton>
               <HomeRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Home</Typography>
               </ListItemContent>
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
 
           <ListItem>
             <ListItemButton>
@@ -159,9 +165,9 @@ export default function Sidebar() {
 
           <ListItem>
             <ListItemButton selected>
-              <ShoppingCartRoundedIcon />
+              <FolderSharedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Orders</Typography>
+                <Typography level="title-sm">Documents</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
@@ -170,9 +176,9 @@ export default function Sidebar() {
             <Toggler
               renderToggle={({ open, setOpen }) => (
                 <ListItemButton onClick={() => setOpen(!open)}>
-                  <AssignmentRoundedIcon />
+                  <StorageIcon />
                   <ListItemContent>
-                    <Typography level="title-sm">Tasks</Typography>
+                    <Typography level="title-sm">Data Sources</Typography>
                   </ListItemContent>
                   <KeyboardArrowDownIcon
                     sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
@@ -182,22 +188,16 @@ export default function Sidebar() {
             >
               <List sx={{ gap: 0.5 }}>
                 <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton>All tasks</ListItemButton>
+                  <ListItemButton>Google Drive</ListItemButton>
                 </ListItem>
                 <ListItem>
-                  <ListItemButton>Backlog</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>In progress</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Done</ListItemButton>
+                  <ListItemButton>One Drive</ListItemButton>
                 </ListItem>
               </List>
             </Toggler>
           </ListItem>
 
-          <ListItem>
+          {/* <ListItem>
             <ListItemButton
               role="menuitem"
               component="a"
@@ -211,9 +211,9 @@ export default function Sidebar() {
                 4
               </Chip>
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
 
-          <ListItem nested>
+          {/* <ListItem nested>
             <Toggler
               renderToggle={({ open, setOpen }) => (
                 <ListItemButton onClick={() => setOpen(!open)}>
@@ -245,7 +245,7 @@ export default function Sidebar() {
                 </ListItem>
               </List>
             </Toggler>
-          </ListItem>
+          </ListItem> */}
         </List>
 
         <List
@@ -271,7 +271,7 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem>
         </List>
-        <Card
+        {/* <Card
           invertedColors
           variant="soft"
           color="warning"
@@ -291,20 +291,20 @@ export default function Sidebar() {
           <Button size="sm" variant="solid">
             Upgrade plan
           </Button>
-        </Card>
+        </Card> */}
       </Box>
       <Divider />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
         <Avatar
           variant="outlined"
           size="sm"
-          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+          src="{session.user.image}"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">Siriwat K.</Typography>
-          <Typography level="body-xs">siriwatk@test.com</Typography>
+          <Typography level="title-sm">{session.user.name}</Typography>
+          <Typography level="body-xs">{}</Typography>
         </Box>
-        <IconButton size="sm" variant="plain" color="neutral">
+        <IconButton size="sm" variant="plain" color="neutral" onClick={()=>signOut()}>
           <LogoutRoundedIcon />
         </IconButton>
       </Box>

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Inter } from "next/font/google";
-import { signOut } from "next-auth/react"
 import { CssVarsProvider } from '@mui/joy/styles';
 
 import CssBaseline from '@mui/joy/CssBaseline';
@@ -18,8 +17,14 @@ import Sidebar from '../components/Sidebar';
 import OrderTable from '../components/OrderTable';
 import OrderList from '../components/OrderList';
 import Header from '../components/Header';
+import { useSession } from "next-auth/react"
 
 export default function Home() {
+  const { data: session, status } = useSession()
+  
+  if(status == "loading") {
+    return (<></>)
+  }
   return (
       <main>
         {/* <ModeToggle /> */}
