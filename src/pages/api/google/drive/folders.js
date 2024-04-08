@@ -20,9 +20,12 @@ export default async function handler(req, res) {
     auth: auth
   });
   const r = await service.files.list({
-    pageSize: 10,
-    fields: 'nextPageToken, files(id, name)',
+    q: "mimeType = 'application/vnd.google-apps.folder'",
+    pageSize: 100,
+    fields: 'nextPageToken, files(id, name, parents)',
   });
 
-  const files = r.data.files;
+  res.status(200).json({
+    folders: r.data.files,
+  });
 }
