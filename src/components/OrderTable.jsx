@@ -275,7 +275,7 @@ function RowMenu() {
   );
 }
 
-export default function OrderTable() {
+export default function OrderTable({dataSources}) {
   const [order, setOrder] = React.useState('desc');
   const [selected, setSelected] = React.useState([]);
   const [open, setOpen] = React.useState(false);
@@ -317,9 +317,13 @@ export default function OrderTable() {
       </FormControl>
     </React.Fragment>
   );
+
+  if(!dataSources)
+    dataSources = []
+
   return (
     <React.Fragment>
-      <Sheet
+      {/* <Sheet
         className="SearchAndFilters-mobile"
         sx={{
           display: { xs: 'flex', sm: 'none' },
@@ -375,7 +379,7 @@ export default function OrderTable() {
           <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
-      </Box>
+      </Box> */}
       <Sheet
         className="OrderTableContainer"
         variant="outlined"
@@ -438,17 +442,17 @@ export default function OrderTable() {
                     },
                   }}
                 >
-                  Invoice
+                  Folder Name
                 </Link>
               </th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Date</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Status</th>
+              <th style={{ width: 140, padding: '12px 6px' }}>Path</th>
+              {/* <th style={{ width: 140, padding: '12px 6px' }}>Status</th>
               <th style={{ width: 240, padding: '12px 6px' }}>Customer</th>
-              <th style={{ width: 140, padding: '12px 6px' }}> </th>
+              <th style={{ width: 140, padding: '12px 6px' }}> </th> */}
             </tr>
           </thead>
           <tbody>
-            {stableSort(rows, getComparator(order, 'id')).map((row) => (
+            {dataSources.map((row) => (
               <tr key={row.id}>
                 <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox
@@ -467,12 +471,12 @@ export default function OrderTable() {
                   />
                 </td>
                 <td>
+                  <Typography level="body-xs">{row.name}</Typography>
+                </td>
+                <td>
                   <Typography level="body-xs">{row.id}</Typography>
                 </td>
-                <td>
-                  <Typography level="body-xs">{row.date}</Typography>
-                </td>
-                <td>
+                {/* <td>
                   <Chip
                     variant="soft"
                     size="sm"
@@ -502,15 +506,15 @@ export default function OrderTable() {
                       <Typography level="body-xs">{row.customer.email}</Typography>
                     </div>
                   </Box>
-                </td>
+                </td> 
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                     <Link level="body-xs" component="button">
-                      Download
+                      Open
                     </Link>
                     <RowMenu />
                   </Box>
-                </td>
+                </td>*/}
               </tr>
             ))}
           </tbody>

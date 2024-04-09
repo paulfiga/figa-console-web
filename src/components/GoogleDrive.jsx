@@ -13,13 +13,34 @@ import OrderList from '@/components/OrderList';
 import FolderPicker from '@/components/FolderPicker';
 
 import { useState } from 'react';
+import { useDataSource, useDataSourceMutate } from '@/hooks';
+import { Provider } from '@prisma/client';
 
-export default function GoogleDrive({clientId, clientSecret}) {
+export default function GoogleDrive({userId}) {
   const [open, setOpen] = useState(false);
+  const {dataSources, isLoading, isError} = useDataSource(userId);
+  const {trigger} = useDataSourceMutate(userId);
+
+  // const { data, error, isLoading } = useSWR(`/api/user/${userId}`, fetcher)
+
+  // let msg = "";
+  // if(isError) {
+  //   msg = "error";
+  // }
+  // else if(isLoading) {
+  //   msg = "loading"
+  // }
+  // else {
+  //   msg = user.name;
+  // }
+
+  function onAdd(selectedFolders) {
+    trigger(selectedFolders.map((f) => ({id: f.id, name: f.name, provider: Provider.GoogleDrive})));
+  }
 
   return (
     <>
-      <FolderPicker open={open} setOpen={setOpen}/>
+      <FolderPicker open={open} setOpen={setOpen} onAdd={onAdd}/>
       <Box
         component="main"
         className="MainContent"
@@ -91,8 +112,8 @@ export default function GoogleDrive({clientId, clientSecret}) {
             Add Document
           </Button>
         </Box>
-        {/* <OrderTable />
-        <OrderList /> */}
+        <OrderTable dataSources={dataSources}/>
+        {/* <OrderList /> */}
       </Box>
     </>
   )

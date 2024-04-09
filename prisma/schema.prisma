@@ -48,6 +48,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  dataSources   DataSource[]
 }
 
 model VerificationToken {
@@ -56,4 +57,17 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model DataSource {
+  id        String  @id @unique
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  provider  Provider
+}
+
+enum Provider {
+  GoogleDrive
+  MicrosoftDrive
 }

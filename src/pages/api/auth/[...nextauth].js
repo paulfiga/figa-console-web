@@ -44,6 +44,7 @@ export const authOptions = {
       // Send properties to the client, like an access_token and user id from a provider.
       session.accessToken = token.accessToken
       session.refreshToken = token.refreshToken
+      session.userId = token.sub;
       return session
     }
   },

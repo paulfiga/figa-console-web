@@ -21,14 +21,17 @@ import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
 import { useEffect, useState } from 'react';
 
-export default function FolderPicker({open, setOpen}) {
+export default function FolderPicker({open, setOpen, onAdd}) {
 
   const [currentFolder, setCurrentFolder] = useState({children:[]});
   const [root, setRoot] = useState({children:[]});
+  const [selectedFolders, setSelectedFolders] = useState([]);
 
   useEffect(() => {
-    if(!open)
+    if(!open){
+      setSelectedFolders([])
       return;
+    }
 
     async function fetchFolders() {
       let res = await fetch(`/api/google/drive/folders`);
@@ -107,17 +110,7 @@ export default function FolderPicker({open, setOpen}) {
                     separator={<ChevronRightRoundedIcon fontSize="sm" />}
                     sx={{ pl: 0 }}
                   >
-                    {/* <Link
-                      underline="none"
-                      color="neutral"
-                      href="#some-link"
-                      aria-label="Home"
-                      onClick={()=>setFolderList(root)}
-                    >
-                      <HomeRoundedIcon />
-                    </Link> */}
                     {
-                      // get the ancestry in order
                       ancestors.map((a) =>
                         <Link
                         underline="none"
@@ -133,18 +126,6 @@ export default function FolderPicker({open, setOpen}) {
                       </Link>
                       )
                     }
-                    {/* <Link
-                      underline="hover"
-                      color="neutral"
-                      href="#some-link"
-                      fontSize={12}
-                      fontWeight={500}
-                    >
-                      Dashboard
-                    </Link> */}
-                    {/* <Typography color="primary" fontWeight={500} fontSize={12}>
-                      Orders
-                    </Typography> */}
                   </Breadcrumbs>
                 </Box>
               </ListSubheader>
@@ -153,7 +134,13 @@ export default function FolderPicker({open, setOpen}) {
                   currentFolder.children.map((f) =>
                     <ListItem key={f.id}>
                       <>
-                        <Checkbox label={f.name} key={f.id}/>
+                        <Checkbox 
+                          label={f.name} key={f.id}
+                          onChange={(evt)=>{
+                            evt.target.checked ? selectedFolders.push(f) : selectedFolders.splice(selectedFolders.indexOf(f), 1);
+                            setSelectedFolders(selectedFolders);
+                          }}
+                        />
                         {f.children ? 
                         (  <IconButton
                             onClick={() => setCurrentFolder(f)}
@@ -169,7 +156,7 @@ export default function FolderPicker({open, setOpen}) {
           </List>
           </DialogContent>
           <DialogActions>
-            <Button variant="solid" color="primary" onClick={() => setOpen(false)}>
+            <Button variant="solid" color="primary" onClick={() => {setOpen(false); onAdd(selectedFolders);}}>
               Add Selected Folders
             </Button>
             <Button variant="outlined" color="neutral" onClick={() => setOpen(false)}>

@@ -13,10 +13,10 @@ import { useSession } from "next-auth/react"
 import { useSelector } from 'react-redux'
 import { PAGE_ID } from '@/stores/currentPageSlice';
 
-function page(currentPage) {
+function page(currentPage, userId) {
   switch(currentPage) {
-    case PAGE_ID.DASHBOARD: return <Dashboard />
-    case PAGE_ID.GOOGLE_DRIVE: return <GoogleDrive />
+    case PAGE_ID.DASHBOARD: return <Dashboard userId={userId}/>
+    case PAGE_ID.GOOGLE_DRIVE: return <GoogleDrive userId={userId}/>
     default: return null
   }
 }
@@ -35,7 +35,7 @@ export default function Home() {
         <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
           <Header />
           <Sidebar />
-          {page(currentPage)}
+          {page(currentPage, session.userId)}
         </Box>
       </main>
     );
