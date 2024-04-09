@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       data: data,
     })
 
-    res.status(200);
+    res.status(200).json({});
   }
 
   else {
