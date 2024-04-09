@@ -314,7 +314,7 @@ export default function Sidebar() {
         <Avatar
           variant="outlined"
           size="sm"
-          src="{session.user.image}"
+          src={session.user.image}
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography level="title-sm">{session.user.name}</Typography>

@@ -1,10 +1,15 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { PrismaClient } from "@prisma/client"
 
 const SCOPES = 'https://www.googleapis.com/auth/drive.readonly openid email profile';
 
+const prisma = new PrismaClient();
+
 export const authOptions = {
   // Configure one or more authentication providers
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -21,6 +26,9 @@ export const authOptions = {
       },
     }),
   ],
+  session: {
+    strategy: "jwt", // "jwt" this is the key to make adapter work! https://github.com/nextauthjs/next-auth/issues/7535
+  },
   // ...add more providers here
   callbacks: {
     async jwt({ token, account, profile }) {
