@@ -14,7 +14,8 @@ import FolderPicker from '@/components/FolderPicker';
 
 import { useState } from 'react';
 import { useDataSource, useDataSourceMutate } from '@/hooks';
-import { Provider } from '@prisma/client';
+import { Provider } from '@/types/types';
+// import { Provider } from '@prisma/client';
 
 export default function GoogleDrive({userId}) {
   const [open, setOpen] = useState(false);

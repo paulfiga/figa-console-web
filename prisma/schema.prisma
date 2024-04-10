@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
 
@@ -64,10 +64,5 @@ model DataSource {
   userId    String
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   name      String
-  provider  Provider
-}
-
-enum Provider {
-  GoogleDrive
-  MicrosoftDrive
+  provider  Int
 }
