@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Inter } from "next/font/google";
+import '@fontsource/inter';
 
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
