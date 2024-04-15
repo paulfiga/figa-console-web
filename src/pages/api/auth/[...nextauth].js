@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 
-const SCOPES = 'https://www.googleapis.com/auth/drive.readonly openid email profile';
 
 const prisma = new PrismaClient();
 
@@ -14,16 +13,6 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      // this to force refresh token
-      // https://next-auth.js.org/providers/google#example
-      authorization: {
-        params: {
-          scope: SCOPES,
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code"
-        }
-      },
     }),
   ],
   session: {
