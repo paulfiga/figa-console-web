@@ -2,46 +2,19 @@ import Box from '@mui/joy/Box';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
 import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
-import Button from '@mui/joy/Button';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-
+import IconButton from '@mui/joy/IconButton';
+import CachedIcon from '@mui/icons-material/Cached';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
 import OrderTable from '@/components/OrderTable';
-import OrderList from '@/components/OrderList';
-import FolderPicker from '@/components/FolderPicker';
-
-import { useState } from 'react';
-import { useDataSource, useDataSourceMutate } from '@/hooks';
-import { Provider } from '@/types/types';
-// import { Provider } from '@prisma/client';
+import { useDataSource } from '@/hooks';
 
 export default function GoogleDrive({userId}) {
-  const [open, setOpen] = useState(false);
-  const {dataSources, isLoading, isError} = useDataSource(userId);
-  const {trigger} = useDataSourceMutate(userId);
-
-  // const { data, error, isLoading } = useSWR(`/api/user/${userId}`, fetcher)
-
-  // let msg = "";
-  // if(isError) {
-  //   msg = "error";
-  // }
-  // else if(isLoading) {
-  //   msg = "loading"
-  // }
-  // else {
-  //   msg = user.name;
-  // }
-
-  function onAdd(selectedFolders) {
-    trigger(selectedFolders.map((f) => ({id: f.id, name: f.name, provider: Provider.GoogleDrive})));
-  }
+  const {dataSources, isLoading, isError, mutate} = useDataSource(userId);
 
   return (
     <>
-      <FolderPicker open={open} setOpen={setOpen} onAdd={onAdd}/>
       <Box
         component="main"
         className="MainContent"
@@ -104,17 +77,11 @@ export default function GoogleDrive({userId}) {
           <Typography level="h2" component="h1">
             Google Drive
           </Typography>
-          <Button
-            color="primary"
-            startDecorator={<AddBoxIcon />}
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            Add Document
-          </Button>
+          <IconButton variant="soft" color="primary" size="sm" onClick={()=>mutate()}>
+            <CachedIcon />
+          </IconButton>
         </Box>
         <OrderTable dataSources={dataSources}/>
-        {/* <OrderList /> */}
       </Box>
     </>
   )

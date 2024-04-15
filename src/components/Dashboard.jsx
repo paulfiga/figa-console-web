@@ -1,16 +1,15 @@
 import Box from '@mui/joy/Box';
-import Breadcrumbs from '@mui/joy/Breadcrumbs';
-import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/joy/Button';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
-
-import OrderTable from '@/components/OrderTable';
-import OrderList from '@/components/OrderList';
+import { useEmbedJobsMutate } from '@/hooks';
+import { useSession } from "next-auth/react"
 
 export default function Dashboard() {
+
+  const { data: session } = useSession()
+  const {trigger} = useEmbedJobsMutate(session.userId);
+
   return (
     <Box
       component="main"
@@ -32,33 +31,13 @@ export default function Dashboard() {
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Breadcrumbs
+        {/* <Breadcrumbs
           size="sm"
           aria-label="breadcrumbs"
           separator={<ChevronRightRoundedIcon fontSize="sm" />}
           sx={{ pl: 0 }}
         >
-          <Link
-            underline="none"
-            color="neutral"
-            href="#some-link"
-            aria-label="Home"
-          >
-            <HomeRoundedIcon />
-          </Link>
-          <Link
-            underline="hover"
-            color="neutral"
-            href="#some-link"
-            fontSize={12}
-            fontWeight={500}
-          >
-            Dashboard
-          </Link>
-          <Typography color="primary" fontWeight={500} fontSize={12}>
-            Orders
-          </Typography>
-        </Breadcrumbs>
+        </Breadcrumbs> */}
       </Box>
       <Box
         sx={{
@@ -73,18 +52,17 @@ export default function Dashboard() {
       >
 
         <Typography level="h2" component="h1">
-          Orders
+          Dashboard
         </Typography>
         <Button
           color="primary"
           startDecorator={<DownloadRoundedIcon />}
           size="sm"
+          onClick={()=>trigger()}
         >
-          Download PDF
+          Send
         </Button>
       </Box>
-      <OrderTable />
-      <OrderList />
     </Box>
   )
 }

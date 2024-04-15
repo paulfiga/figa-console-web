@@ -318,9 +318,6 @@ export default function OrderTable({dataSources}) {
     </React.Fragment>
   );
 
-  if(!dataSources)
-    dataSources = []
-
   return (
     <React.Fragment>
       {/* <Sheet
