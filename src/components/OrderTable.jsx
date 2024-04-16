@@ -7,12 +7,17 @@ import Link from '@mui/joy/Link';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
 import Checkbox from '@mui/joy/Checkbox';
+import Chip from '@mui/joy/Chip';
 import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import Menu from '@mui/joy/Menu';
 import MenuButton from '@mui/joy/MenuButton';
 import MenuItem from '@mui/joy/MenuItem';
 import Dropdown from '@mui/joy/Dropdown';
+
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import MemoryIcon from '@mui/icons-material/Memory';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -75,7 +80,8 @@ function RowMenu() {
   );
 }
 
-export default function OrderTable({dataSources}) {
+export default function OrderTable({dataSources, onEmbed}) {
+  
   const [order, setOrder] = React.useState('desc');
   const [selected, setSelected] = React.useState([]);
   
@@ -127,7 +133,7 @@ export default function OrderTable({dataSources}) {
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th style={{ width: 120, padding: '12px 6px' }}>
+              <th style={{ width: 140, padding: '12px 6px' }}>
                 <Link
                   underline="none"
                   color="primary"
@@ -146,7 +152,9 @@ export default function OrderTable({dataSources}) {
                   Folder Name
                 </Link>
               </th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Path</th>
+              <th style={{ width: 300, padding: '12px 6px' }}>Path</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Status</th>
+              <th style={{ width: 120, padding: '12px 6px' }}> </th>
             </tr>
           </thead>
           <tbody>
@@ -173,6 +181,36 @@ export default function OrderTable({dataSources}) {
                 </td>
                 <td>
                   <Typography level="body-xs">{row.id}</Typography>
+                </td>
+                <td>
+                  <Chip
+                    variant="soft"
+                    size="sm"
+                    startDecorator={
+                      {
+                        New: <AddCircleOutlineIcon />,
+                        Embedding: <MemoryIcon />,
+                        Done: <CheckRoundedIcon />,
+                      }[row.status]
+                    }
+                    color={
+                      {
+                        New: 'primary',
+                        Embedding: 'neutral',
+                        Done: 'success',
+                      }[row.status]
+                    }
+                  >
+                    {row.status}
+                  </Chip>
+                </td>
+                <td>
+                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                    <Link level="body-xs" component="button" onClick={()=>onEmbed([row.id])}>
+                      Embed
+                    </Link>
+                    <RowMenu />
+                  </Box>
                 </td>
               </tr>
             ))}

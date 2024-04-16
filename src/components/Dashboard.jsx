@@ -2,13 +2,11 @@ import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/joy/Button';
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
-import { useEmbedJobsMutate } from '@/hooks';
 import { useSession } from "next-auth/react"
 
 export default function Dashboard() {
 
   const { data: session } = useSession()
-  const {trigger} = useEmbedJobsMutate(session.userId);
 
   return (
     <Box
@@ -58,7 +56,6 @@ export default function Dashboard() {
           color="primary"
           startDecorator={<DownloadRoundedIcon />}
           size="sm"
-          onClick={()=>trigger()}
         >
           Send
         </Button>

@@ -8,11 +8,19 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
 import OrderTable from '@/components/OrderTable';
-import { useDataSource } from '@/hooks';
+import { useDataSource, useEmbedDataSource } from '@/hooks';
+import { Provider } from '@prisma/client'
+
 
 export default function GoogleDrive({userId}) {
-  const {dataSources, isLoading, isError, mutate} = useDataSource(userId);
 
+  const {dataSources, isLoading, isError, mutate} = useDataSource(userId, Provider.GoogleDrive);
+  const {trigger} = useEmbedDataSource(userId, Provider.GoogleDrive);
+
+  function onEmbed(files) {
+    trigger(files);
+  }
+  
   return (
     <>
       <Box
@@ -56,11 +64,8 @@ export default function GoogleDrive({userId}) {
               fontSize={12}
               fontWeight={500}
             >
-              Dashboard
+              Data Source
             </Link>
-            <Typography color="primary" fontWeight={500} fontSize={12}>
-              Orders
-            </Typography>
           </Breadcrumbs>
         </Box>
         <Box
@@ -81,7 +86,7 @@ export default function GoogleDrive({userId}) {
             <CachedIcon />
           </IconButton>
         </Box>
-        <OrderTable dataSources={dataSources}/>
+        <OrderTable dataSources={dataSources} onEmbed={onEmbed}/>
       </Box>
     </>
   )

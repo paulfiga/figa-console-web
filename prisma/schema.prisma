@@ -63,6 +63,19 @@ model DataSource {
   id        String  @id @unique
   userId    String
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name      String
-  provider  Int
+  provider  Provider
+  status    EmbedStatus @default(New)
+
+  @@unique([id, userId, provider])
+}
+
+enum Provider {
+  GoogleDrive
+  MSDrive
+}
+
+enum EmbedStatus {
+  New
+  Embedding
+  Done
 }

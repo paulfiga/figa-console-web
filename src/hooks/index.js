@@ -13,8 +13,8 @@ export function useUser(userId) {
   }
 }
 
-export function useDataSource(userId) {
-  const { data, error, isLoading, mutate } = useSWR(`/api/users/${userId}/datasources/googledrive`, fetcher, {fallbackData:[]})
+export function useDataSource(userId, provider) {
+  const { data, error, isLoading, mutate } = useSWR(`/api/users/${userId}/datasources/${provider}`, fetcher, {fallbackData:[]})
 
   return {
     dataSources: data,
@@ -24,7 +24,7 @@ export function useDataSource(userId) {
   }
 }
 
-export function useEmbedJobsMutate(userId) {
+export function useEmbedDataSource(userId, provider) {
   async function updateUser(url, {arg}) {
     await fetch(url, {
       method: 'POST',
@@ -36,7 +36,7 @@ export function useEmbedJobsMutate(userId) {
     })
   }
 
-  const { trigger } = useSWRMutation(`/api/users/${userId}/jobs`, updateUser);
+  const { trigger } = useSWRMutation(`/api/users/${userId}/datasources/${provider}`, updateUser);
   
   return {
     trigger: trigger,
