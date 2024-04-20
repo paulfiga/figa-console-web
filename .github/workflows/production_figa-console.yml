@@ -28,7 +28,7 @@ jobs:
           npm run test --if-present
 
       - name: echo env
-        run: echo ${{secrets.DATABASE_URL}} > .env
+        run: echo DATABASE_URL=${{secrets.DATABASE_URL}} > .env
   
       - name: Zip artifact for deployment
         run: zip release.zip  --symlinks ./* -r .next .env
