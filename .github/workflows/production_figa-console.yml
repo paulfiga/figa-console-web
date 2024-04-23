@@ -124,7 +124,7 @@ jobs:
         with:
           app-name: 'figa-console'
           slot-name: 'Production'
-          package: .
+          package: release.zip
           clean: true
           type: ZIP
           startup-command: node .next/standalone/server.js
