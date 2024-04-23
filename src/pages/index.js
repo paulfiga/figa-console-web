@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Head from 'next/head'
 import '@fontsource/inter';
 
 import CssBaseline from '@mui/joy/CssBaseline';
@@ -32,6 +33,9 @@ export default function Home() {
       <main>
         {/* <ModeToggle /> */}
         <CssBaseline />
+        <Head>
+          <title>Figa Console</title>
+        </Head>
         <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
           <Header />
           <Sidebar />
