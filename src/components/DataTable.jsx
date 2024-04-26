@@ -54,7 +54,7 @@ function reducer(state, key) {
   return s;
 }
 
-export default function OrderTable({dataSources, onEmbed, headers, makeCell}) {
+export default function DataTable({dataSources, onEmbed, headers, makeCell}) {
   
   const [order, setOrder] = React.useReducer(reducer, {});
   const [selected, setSelected] = React.useState([]);

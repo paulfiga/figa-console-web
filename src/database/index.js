@@ -38,3 +38,11 @@ export function updateDataSourcesToEmbedding(objs) {
     }
   });
 }
+
+export function GetDocuments(userId) {
+  return prisma.data_docstore.findMany({
+    where: {
+      namespace : `${userId}/data`
+    }
+  });
+}

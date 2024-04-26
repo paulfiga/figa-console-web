@@ -7,7 +7,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
-import OrderTable from '@/components/OrderTable';
+import DataTable from '@/components/DataTable';
 import { useDataSource, useEmbedDataSource } from '@/hooks';
 import { Provider } from '@prisma/client'
 
@@ -166,7 +166,7 @@ export default function GoogleDrive({userId}) {
             <CachedIcon />
           </IconButton>
         </Box>
-        <OrderTable dataSources={dataSources} headers={headers} makeCell={makeCell}/>
+        <DataTable dataSources={dataSources} headers={headers} makeCell={makeCell}/>
       </Box>
     </>
   )

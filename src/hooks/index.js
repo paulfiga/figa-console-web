@@ -24,6 +24,17 @@ export function useDataSource(userId, provider) {
   }
 }
 
+export function useDocuments(userId) {
+  const { data, error, isLoading, mutate } = useSWR(`/api/users/${userId}/documents/`, fetcher, {fallbackData:[]})
+
+  return {
+    documents: data,
+    isLoading,
+    isError: error,
+    mutate,
+  }
+}
+
 export function useEmbedDataSource(userId, provider) {
   async function updateUser(url, {arg}) {
     await fetch(url, {
