@@ -7,6 +7,7 @@ import Box from '@mui/joy/Box';
 
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import Documents from '@/components/Documents'
 import Dashboard from '@/components/Dashboard';
 import GoogleDrive from '@/components/GoogleDrive';
 
@@ -18,6 +19,7 @@ function page(currentPage, userId) {
   switch(currentPage) {
     case PAGE_ID.DASHBOARD: return <Dashboard userId={userId}/>
     case PAGE_ID.GOOGLE_DRIVE: return <GoogleDrive userId={userId}/>
+    case PAGE_ID.DOCUMENTS: return <Documents userId={userId}/>
     default: return null
   }
 }

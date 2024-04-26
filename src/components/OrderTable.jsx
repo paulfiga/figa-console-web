@@ -2,26 +2,15 @@
 import * as React from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
-import Divider from '@mui/joy/Divider';
 import Link from '@mui/joy/Link';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
 import Checkbox from '@mui/joy/Checkbox';
-import Chip from '@mui/joy/Chip';
 import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
-import Menu from '@mui/joy/Menu';
-import MenuButton from '@mui/joy/MenuButton';
-import MenuItem from '@mui/joy/MenuItem';
-import Dropdown from '@mui/joy/Dropdown';
-
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import MemoryIcon from '@mui/icons-material/Memory';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -32,8 +21,6 @@ function descendingComparator(a, b, orderBy) {
   }
   return 0;
 }
-
-// type Order = 'asc' | 'desc';
 
 function getComparator(
   order,
@@ -60,31 +47,18 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function RowMenu() {
-  return (
-    <Dropdown>
-      <MenuButton
-        slots={{ root: IconButton }}
-        slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}
-      >
-        <MoreHorizRoundedIcon />
-      </MenuButton>
-      <Menu size="sm" sx={{ minWidth: 140 }}>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Rename</MenuItem>
-        <MenuItem>Move</MenuItem>
-        <Divider />
-        <MenuItem color="danger">Delete</MenuItem>
-      </Menu>
-    </Dropdown>
-  );
+// this needs to be pure i.e. don't ever mutate 'state'
+function reducer(state, key) {
+  let s = {...state};
+  s[key] = !(state[key]??false);
+  return s;
 }
 
-export default function OrderTable({dataSources, onEmbed}) {
+export default function OrderTable({dataSources, onEmbed, headers, makeCell}) {
   
-  const [order, setOrder] = React.useState('desc');
+  const [order, setOrder] = React.useReducer(reducer, {});
   const [selected, setSelected] = React.useState([]);
-  
+
   return (
     <React.Fragment>
       <Sheet
@@ -133,34 +107,34 @@ export default function OrderTable({dataSources, onEmbed}) {
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th style={{ width: 140, padding: '12px 6px' }}>
-                <Link
-                  underline="none"
-                  color="primary"
-                  component="button"
-                  onClick={() => setOrder(order === 'asc' ? 'desc' : 'asc')}
-                  fontWeight="lg"
-                  endDecorator={<ArrowDropDownIcon />}
-                  sx={{
-                    '& svg': {
-                      transition: '0.2s',
-                      transform:
-                        order === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
-                    },
-                  }}
-                >
-                  Folder Name
-                </Link>
-              </th>
-              <th style={{ width: 300, padding: '12px 6px' }}>Path</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Status</th>
-              <th style={{ width: 120, padding: '12px 6px' }}> </th>
+              
+              {headers.map((column)=>(
+                <th style={{ width: column.width, padding: '12px 6px' }} key={column.label}>
+                  <Link
+                    underline="none"
+                    color="primary"
+                    component="button"
+                    onClick={() => setOrder(column.label)}
+                    fontWeight="lg"
+                    endDecorator={column.label?.length ?<ArrowDropDownIcon />:<></>}
+                    sx={{
+                      '& svg': {
+                        transition: '0.2s',
+                        transform:
+                        order[column.label] ? 'rotate(180deg)' : 'rotate(0deg)',
+                      },
+                    }}
+                  >
+                    {column.label}
+                  </Link>
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {dataSources.map((row) => (
               <tr key={row.id}>
-                <td style={{ textAlign: 'center', width: 120 }}>
+               <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox
                     size="sm"
                     checked={selected.includes(row.id)}
@@ -176,42 +150,8 @@ export default function OrderTable({dataSources, onEmbed}) {
                     sx={{ verticalAlign: 'text-bottom' }}
                   />
                 </td>
-                <td>
-                  <Typography level="body-xs">{row.name}</Typography>
-                </td>
-                <td>
-                  <Typography level="body-xs">{row.id}</Typography>
-                </td>
-                <td>
-                  <Chip
-                    variant="soft"
-                    size="sm"
-                    startDecorator={
-                      {
-                        New: <AddCircleOutlineIcon />,
-                        Embedding: <MemoryIcon />,
-                        Done: <CheckRoundedIcon />,
-                      }[row.status]
-                    }
-                    color={
-                      {
-                        New: 'primary',
-                        Embedding: 'neutral',
-                        Done: 'success',
-                      }[row.status]
-                    }
-                  >
-                    {row.status}
-                  </Chip>
-                </td>
-                <td>
-                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <Link level="body-xs" component="button" onClick={()=>onEmbed([row.id])}>
-                      Embed
-                    </Link>
-                    <RowMenu />
-                  </Box>
-                </td>
+
+                {headers.map((column)=> makeCell(column.label, row) ?? <td key={column.label}><Typography level="body-xs">{row[column.key]}</Typography></td>)}
               </tr>
             ))}
           </tbody>

@@ -80,3 +80,12 @@ enum EmbedStatus {
   Embedding
   Done
 }
+
+model data_docstore {
+  id        Int  @id @unique @default(autoincrement())
+  key       String
+  namespace String
+  value     Json
+
+  @@unique([key, namespace])
+}
