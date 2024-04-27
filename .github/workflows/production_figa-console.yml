@@ -17,11 +17,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: npm install, build, and test
+        run: |
+          npm install prisma
+
       - name: echo env
         run: echo DATABASE_URL=${{secrets.DATABASE_URL}} > .env
 
       - name: Zip artifact for deployment
-        run: zip schema.zip  -r prisma .env
+        run: zip schema.zip -r node_modules prisma .env
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -62,7 +71,6 @@ jobs:
           slot-name: 'Production'
           package: .
           clean: true
-          startup-command: "npm install prisma && npx prisma migrate deploy"
 
   build:
     runs-on: ubuntu-latest
