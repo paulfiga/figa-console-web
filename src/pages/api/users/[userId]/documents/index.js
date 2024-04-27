@@ -2,8 +2,8 @@
 import { GetDocuments, DeleteDocument } from "@/database"
 import {QdrantClient} from '@qdrant/js-client-rest';
 
-const QDRANT_API_KEY="TLZTXJEUazuXQRvP0iuh2niHkbdUmbNL7Pbwn3I7PdKnnwVIXc7Qeg";
-const QDRANT_URL="https://ca66d02c-35ba-4d64-af99-eb5c7b9c9817.us-east4-0.gcp.cloud.qdrant.io";
+const QDRANT_API_KEY = process.env.QDRANT_API_KEY;
+const QDRANT_URL = process.env.QDRANT_URL;
 
 async function get(req, res){
   let {userId} = req.query;
