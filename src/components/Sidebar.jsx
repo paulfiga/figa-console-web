@@ -150,15 +150,6 @@ export default function Sidebar() {
             '--ListItem-radius': (theme) => theme.vars.radius.sm,
           }}
         >
-          {/* <ListItem>
-            <ListItemButton>
-              <HomeRoundedIcon />
-              <ListItemContent>
-                <Typography level="title-sm">Home</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem> */}
-
           <ListItem>
             <ListItemButton
               selected={currentPage===PAGE_ID.DASHBOARD}

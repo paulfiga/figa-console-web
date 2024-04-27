@@ -38,3 +38,20 @@ export function updateDataSourcesToEmbedding(objs) {
     }
   });
 }
+
+export function GetDocuments(userId) {
+  return prisma.document.findMany({
+    where: {
+      userId: userId
+    }
+  });
+}
+
+export function DeleteDocument(userId, docId) {
+  return prisma.document.delete({
+    where: {
+      userId: userId,
+      id: docId
+    }
+  })
+}

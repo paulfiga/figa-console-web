@@ -7,10 +7,20 @@ import CachedIcon from '@mui/icons-material/Cached';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
-import OrderTable from '@/components/OrderTable';
+import DataTable from '@/components/DataTable';
 import { useDataSource, useEmbedDataSource } from '@/hooks';
 import { Provider } from '@prisma/client'
 
+import Chip from '@mui/joy/Chip';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import MemoryIcon from '@mui/icons-material/Memory';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Menu from '@mui/joy/Menu';
+import MenuButton from '@mui/joy/MenuButton';
+import MenuItem from '@mui/joy/MenuItem';
+import Dropdown from '@mui/joy/Dropdown';
+import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
+import Divider from '@mui/joy/Divider';
 
 export default function GoogleDrive({userId}) {
 
@@ -20,7 +30,77 @@ export default function GoogleDrive({userId}) {
   function onEmbed(files) {
     trigger(files);
   }
+
+  function RowMenu() {
+    return (
+      <Dropdown>
+        <MenuButton
+          slots={{ root: IconButton }}
+          slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}
+        >
+          <MoreHorizRoundedIcon />
+        </MenuButton>
+        <Menu size="sm" sx={{ minWidth: 140 }}>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Rename</MenuItem>
+          <MenuItem>Move</MenuItem>
+          <Divider />
+          <MenuItem color="danger">Delete</MenuItem>
+        </Menu>
+      </Dropdown>
+    );
+  }
+
+  function makeCell(column, row) {
+    if(column === "Status") {
+      return (
+        <td>
+          <Chip
+            variant="soft"
+            size="sm"
+            startDecorator={
+              {
+                New: <AddCircleOutlineIcon />,
+                Embedding: <MemoryIcon />,
+                Done: <CheckRoundedIcon />,
+              }[row.status]
+            }
+            color={
+              {
+                New: 'primary',
+                Embedding: 'neutral',
+                Done: 'success',
+              }[row.status]
+            }
+          >
+            {row.status}
+          </Chip>
+        </td>
+      );
+    }
+    else if(column === "") {
+      return (
+        <td>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Link level="body-xs" component="button" onClick={()=>onEmbed([row.id])}>
+              Embed
+            </Link>
+            <RowMenu />
+          </Box>
+        </td> 
+      );
+    }
+    else 
+      return null;
+  }
   
+  const headers = [
+    {label: "Folder Name", width: 120, key: 'name'},
+    {label: "Path", width: 300, key: 'id'},
+    {label: "Status", width: 120, key: 'status'},
+    {label: "", width: 120},
+  ]
+
   return (
     <>
       <Box
@@ -86,7 +166,7 @@ export default function GoogleDrive({userId}) {
             <CachedIcon />
           </IconButton>
         </Box>
-        <OrderTable dataSources={dataSources} onEmbed={onEmbed}/>
+        <DataTable dataSources={dataSources} headers={headers} makeCell={makeCell}/>
       </Box>
     </>
   )
