@@ -15,21 +15,15 @@ import {useDocuments} from '@/hooks'
 const headers = [
   {label: "File Name", width: 120, key: 'name'},
   {label: "Path", width: 300, key: 'id'},
-  {label: "Status", width: 120, key: 'status'},
-  {label: "", width: 120},
+  {label: "Source", width: 120, key: 'provider'},
 ]
 
 function makeCell(column, row) {
   return null;
 }
 
-export default function Documents({userId, userEmail}) {
-  // const dataSources = [
-  //   {name: "doc1", id:"asdfqwer", status: "Done"}
-  // ];
-
-  const {documents, isLoading, isError, mutate} = useDocuments(userEmail);
-
+export default function Documents({userId}) {
+  const {documents, isLoading, isError, mutate} = useDocuments(userId);
   const { data: session } = useSession()
 
   return (

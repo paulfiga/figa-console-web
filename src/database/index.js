@@ -40,9 +40,9 @@ export function updateDataSourcesToEmbedding(objs) {
 }
 
 export function GetDocuments(userId) {
-  return prisma.data_docstore.findMany({
+  return prisma.document.findMany({
     where: {
-      namespace : `${userId}/data`
+      userId: userId
     }
   });
 }

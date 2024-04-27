@@ -50,6 +50,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   dataSources   DataSource[]
+  documents     Document[]
 }
 
 model VerificationToken {
@@ -81,11 +82,12 @@ enum EmbedStatus {
   Done
 }
 
-model data_docstore {
-  id        Int  @id @unique @default(autoincrement())
-  key       String
-  namespace String
-  value     Json
-
-  @@unique([key, namespace])
+model Document {
+  id        String  @id @unique
+  name      String
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hash      String
+  provider  Provider
+  @@unique([id, userId, provider])
 }

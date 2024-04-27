@@ -48,6 +48,7 @@ async function post(req, res) {
       batch.tryAddMessage({
         contentType: "application/json",
         body: {
+          userId: userId,
           email: user.email,
           folders: folders,
         },
