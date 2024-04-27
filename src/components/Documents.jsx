@@ -47,13 +47,16 @@ const headers = [
   {label: "", width: 120, },
 ]
 
-export default function Documents({userId}) {
+export default function Documents({userId, userEmail}) {
   const {documents, isLoading, isError, mutate} = useDocuments(userId);
   const {trigger} = useDeleteDocument(userId);
   const { data: session } = useSession()
 
   function onDeleteDocument(docId) {
-    trigger(docId);
+    trigger({
+      namespace: userEmail,
+      docId: docId,
+    });
   }
 
   function makeCell(column, row) {

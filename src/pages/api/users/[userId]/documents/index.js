@@ -18,14 +18,14 @@ async function get(req, res){
 
 async function del(req, res) {
   const {userId} = req.query;
-  const docId = req.body;
+  const {namespace, docId} = req.body;
 
   const client = new QdrantClient({
     url: QDRANT_URL,
     apiKey: QDRANT_API_KEY,
   });
 
-  return client.delete(userId, {
+  return client.delete(namespace, {
     filter: {
       must: [
         {
