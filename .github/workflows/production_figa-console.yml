@@ -72,6 +72,7 @@ jobs:
           slot-name: 'Production'
           package: .
           clean: true
+          startup-command: node prisma/server.js
 
   # build:
   #   runs-on: ubuntu-latest
