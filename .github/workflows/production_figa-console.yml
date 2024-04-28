@@ -28,10 +28,10 @@ jobs:
       #     npm install prisma
 
       - name: echo env
-        run: echo DATABASE_URL=${{secrets.DATABASE_URL}} > .env
+        run: echo DATABASE_URL=${{secrets.DATABASE_URL}} > prisma/.env
 
       - name: Zip artifact for deployment
-        run: zip schema.zip -r node_modules prisma .env
+        run: zip schema.zip -r prisma
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
