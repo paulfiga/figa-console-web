@@ -41,7 +41,7 @@ import { setPage, PAGE_ID } from "@/stores/currentPageSlice"
 import { useSelector, useDispatch } from 'react-redux'
 
 function Toggler({
-  defaultExpanded = false,
+  defaultExpanded = true,
   renderToggle,
   children,
 }) {
@@ -150,7 +150,7 @@ export default function Sidebar() {
             '--ListItem-radius': (theme) => theme.vars.radius.sm,
           }}
         >
-          <ListItem>
+          {/* <ListItem>
             <ListItemButton
               selected={currentPage===PAGE_ID.DASHBOARD}
               onClick={()=>dispatch(setPage(PAGE_ID.DASHBOARD))}
@@ -160,7 +160,7 @@ export default function Sidebar() {
                 <Typography level="title-sm">Dashboard</Typography>
               </ListItemContent>
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
 
           <ListItem>
             <ListItemButton 
@@ -195,12 +195,12 @@ export default function Sidebar() {
                     onClick={()=>dispatch(setPage(PAGE_ID.GOOGLE_DRIVE))}
                   >Google Drive</ListItemButton>
                 </ListItem>
-                <ListItem>
+                {/* <ListItem>
                   <ListItemButton
                     selected={currentPage===PAGE_ID.MSONE_DRIVE}
                     onClick={()=>dispatch(setPage(PAGE_ID.MSONE_DRIVE))}
                   >One Drive</ListItemButton>
-                </ListItem>
+                </ListItem> */}
               </List>
             </Toggler>
           </ListItem>

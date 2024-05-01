@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const currentPageSlice = createSlice({
   name: 'currentPage',
   initialState: {
-    value: 0,
+    value: 1,
   },
   reducers: {
     setPage: (state, action) => {
@@ -18,7 +18,6 @@ export const currentPageSlice = createSlice({
 })
 
 export const PAGE_ID = {
-  DASHBOARD: 0,
   DOCUMENTS: 1,
   GOOGLE_DRIVE: 2,
   MSONE_DRIVE: 3,
