@@ -10,6 +10,7 @@ import Header from '@/components/Header';
 import Documents from '@/components/Documents'
 import Dashboard from '@/components/Dashboard';
 import GoogleDrive from '@/components/GoogleDrive';
+import SettingsView from '@/components/Settings';
 
 import { useSession } from "next-auth/react"
 import { useSelector } from 'react-redux'
@@ -20,6 +21,7 @@ function page(currentPage, userId, userEmail) {
     case PAGE_ID.DASHBOARD: return <Dashboard userId={userId}/>
     case PAGE_ID.GOOGLE_DRIVE: return <GoogleDrive userId={userId}/>
     case PAGE_ID.DOCUMENTS: return <Documents userId={userId} userEmail={userEmail}/>
+    case PAGE_ID.SETTINGS: return <SettingsView userId={userId} />
     default: return null
   }
 }

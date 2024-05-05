@@ -51,6 +51,7 @@ model User {
   sessions      Session[]
   dataSources   DataSource[]
   documents     Document[]
+  settings      Setting[]
 }
 
 model VerificationToken {
@@ -82,6 +83,11 @@ enum EmbedStatus {
   Done
 }
 
+enum SettingType {
+  Embed
+  Query
+}
+
 model Document {
   id        String  @id @unique
   name      String
@@ -90,4 +96,13 @@ model Document {
   hash      String
   provider  Provider
   @@unique([id, userId, provider])
+}
+
+model Setting {
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      SettingType
+  data      Json
+
+  @@id([userId, type])
 }

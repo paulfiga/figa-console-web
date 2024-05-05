@@ -72,3 +72,33 @@ export function useDeleteDocument(userId) {
     trigger: trigger,
   }
 }
+
+export function useSetting(userId, type) {
+  const { data, error, isLoading, mutate} = useSWR(`/api/users/${userId}/settings/${type}`, fetcher)
+
+  return {
+    configs: data,
+    isLoading,
+    isError: error,
+    mutate
+  }
+}
+
+export function useSettingMutate(userId, type) {
+  async function updateSetting(url, {arg}) {
+    await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(arg)
+    })
+  }
+
+  const { trigger } = useSWRMutation(`/api/users/${userId}/settings/${type}`, updateSetting);
+
+  return {
+    trigger: trigger,
+  }
+}

@@ -21,6 +21,7 @@ export const PAGE_ID = {
   DOCUMENTS: 1,
   GOOGLE_DRIVE: 2,
   MSONE_DRIVE: 3,
+  SETTINGS: 4,
 }
 
 // Action creators are generated for each case reducer function

@@ -55,3 +55,33 @@ export function DeleteDocument(userId, docId) {
     }
   })
 }
+
+export function GetSetting(userId, type) {
+  return prisma.setting.findUnique({
+    where: {
+      userId_type: {
+        userId: userId,
+        type: type
+      }
+    }
+  })
+}
+
+export function UpdateSetting(userId, type, data) {
+  return prisma.setting.upsert({
+    where: {
+      userId_type: {
+        userId: userId,
+        type: type
+      }
+    },
+    update: {
+      data: data
+    },
+    create: {
+      userId: userId,
+      type: type,
+      data: data
+    }
+  })
+}

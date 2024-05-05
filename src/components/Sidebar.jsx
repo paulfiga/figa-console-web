@@ -265,14 +265,17 @@ export default function Sidebar() {
             mb: 2,
           }}
         >
-          <ListItem>
+          {/* <ListItem>
             <ListItemButton>
               <SupportRoundedIcon />
               Support
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
           <ListItem>
-            <ListItemButton>
+            <ListItemButton
+              selected={currentPage===PAGE_ID.SETTINGS}
+              onClick={()=>dispatch(setPage(PAGE_ID.SETTINGS))}
+            >
               <SettingsRoundedIcon />
               Settings
             </ListItemButton>
