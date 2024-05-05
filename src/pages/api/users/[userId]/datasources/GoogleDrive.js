@@ -9,7 +9,7 @@ async function get(req, res){
   const user = await getUser(userId);
 
   const r = await service.files.list({
-    q: `mimeType = 'application/vnd.google-apps.folder' and '${user.email}' in owners` ,
+    q: `mimeType = 'application/vnd.google-apps.folder' and '${user.email}' in owners and sharedWithMe` ,
     pageSize: 100,
     fields: 'nextPageToken, files(id, name, parents)',
   });
