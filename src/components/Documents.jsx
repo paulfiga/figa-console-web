@@ -4,6 +4,7 @@ import Button from '@mui/joy/Button';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import { useSession } from "next-auth/react"
+import { useState } from 'react';
 import DataTable from '@/components/DataTable';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
 import Link from '@mui/joy/Link';
@@ -15,6 +16,8 @@ import MenuItem from '@mui/joy/MenuItem';
 import Dropdown from '@mui/joy/Dropdown';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import Divider from '@mui/joy/Divider';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import {useDocuments, useDeleteDocument} from '@/hooks'
 
 function RowMenu({onDelete}) {
@@ -50,7 +53,8 @@ const headers = [
 export default function Documents({userId, userEmail}) {
   const {documents, isLoading, isError, mutate} = useDocuments(userId);
   const {trigger} = useDeleteDocument(userId);
-  const { data: session } = useSession()
+  const { data: session } = useSession();
+  const [selected, setSelected] = useState([]);
 
   function onDeleteDocument(docId) {
     trigger({
@@ -71,6 +75,14 @@ export default function Documents({userId, userEmail}) {
     } else {
       return null;
     }
+  }
+
+  const props = {
+    selected: selected,
+    setSelected: setSelected,
+    dataSources: documents,
+    headers: headers,
+    makeCell: makeCell
   }
 
   return (
@@ -134,11 +146,16 @@ export default function Documents({userId, userEmail}) {
           <Typography level="h2" component="h1">
             Documents
           </Typography>
-          <IconButton variant="soft" color="primary" size="sm">
+          <Box>
+          <IconButton variant="primary" color="primary" size="sm">
             <CachedIcon />
           </IconButton>
+          <IconButton variant="primary" color="primary" size="sm" disabled={selected.length == 0}>
+            <DeleteIcon />
+          </IconButton>
+          </Box>
         </Box>
-        <DataTable dataSources={documents} headers={headers} makeCell={makeCell}/>
+        <DataTable {...props} />
       </Box>
     </>
   )

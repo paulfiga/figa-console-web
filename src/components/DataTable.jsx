@@ -54,10 +54,10 @@ function reducer(state, key) {
   return s;
 }
 
-export default function DataTable({dataSources, onEmbed, headers, makeCell}) {
+export default function DataTable({dataSources, onEmbed, headers, makeCell, selected, setSelected}) {
   
   const [order, setOrder] = React.useReducer(reducer, {});
-  const [selected, setSelected] = React.useState([]);
+  // const [selected, setSelected] = React.useState([]);
 
   return (
     <React.Fragment>
@@ -157,7 +157,7 @@ export default function DataTable({dataSources, onEmbed, headers, makeCell}) {
           </tbody>
         </Table>
       </Sheet>
-      <Box
+      {/* <Box
         className="Pagination-laptopUp"
         sx={{
           pt: 2,
@@ -199,7 +199,7 @@ export default function DataTable({dataSources, onEmbed, headers, makeCell}) {
         >
           Next
         </Button>
-      </Box>
+      </Box> */}
     </React.Fragment>
   );
 }

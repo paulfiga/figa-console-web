@@ -7,6 +7,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
+import { useState } from 'react';
 import DataTable from '@/components/DataTable';
 import { useDataSource, useEmbedDataSource } from '@/hooks';
 import { Provider } from '@prisma/client'
@@ -26,6 +27,7 @@ export default function GoogleDrive({userId}) {
 
   const {dataSources, isLoading, isError, mutate} = useDataSource(userId, Provider.GoogleDrive);
   const {trigger} = useEmbedDataSource(userId, Provider.GoogleDrive);
+  const [selected, setSelected] = useState([]);
 
   function onEmbed(files) {
     trigger(files);
@@ -101,6 +103,14 @@ export default function GoogleDrive({userId}) {
     {label: "", width: 120},
   ]
 
+  const props = {
+    dataSources: dataSources, 
+    headers: headers,
+    makeCell: makeCell,
+    selected: selected, 
+    setSelected: setSelected,
+  }
+
   return (
     <>
       <Box
@@ -166,7 +176,7 @@ export default function GoogleDrive({userId}) {
             <CachedIcon />
           </IconButton>
         </Box>
-        <DataTable dataSources={dataSources} headers={headers} makeCell={makeCell}/>
+        <DataTable {...props}/>
       </Box>
     </>
   )
