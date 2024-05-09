@@ -47,11 +47,12 @@ export function GetDocuments(userId) {
   });
 }
 
-export function DeleteDocument(userId, docId) {
-  return prisma.document.delete({
+export function DeleteDocuments(docIds) {
+  return prisma.document.deleteMany({
     where: {
-      userId: userId,
-      id: docId
+      id: {
+        in: docIds
+      }
     }
   })
 }

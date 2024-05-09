@@ -121,6 +121,10 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
       
+      - name: Sleep for 60 seconds
+        run: sleep 60s
+        shell: bash
+
       - name: Login to Azure
         uses: azure/login@v1
         with:

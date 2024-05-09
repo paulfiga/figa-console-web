@@ -59,7 +59,7 @@ export default function Documents({userId, userEmail}) {
   function onDeleteDocument(docId) {
     trigger({
       namespace: userEmail,
-      docId: docId,
+      docIds: [docId],
     });
   }
 
@@ -75,6 +75,13 @@ export default function Documents({userId, userEmail}) {
     } else {
       return null;
     }
+  }
+
+  function onDeleteMultipleDocuments() {
+    trigger({
+      namespace: userEmail,
+      docIds: selected,
+    });
   }
 
   const props = {
@@ -150,7 +157,9 @@ export default function Documents({userId, userEmail}) {
           <IconButton variant="primary" color="primary" size="sm">
             <CachedIcon />
           </IconButton>
-          <IconButton variant="primary" color="primary" size="sm" disabled={selected.length == 0}>
+          <IconButton variant="primary" color="primary" size="sm" disabled={selected.length == 0}
+            onClick={()=>onDeleteMultipleDocuments()}
+          >
             <DeleteIcon />
           </IconButton>
           </Box>

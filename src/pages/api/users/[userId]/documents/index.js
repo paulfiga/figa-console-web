@@ -1,5 +1,5 @@
 
-import { GetDocuments, DeleteDocument } from "@/database"
+import { GetDocuments, DeleteDocuments } from "@/database"
 import {QdrantClient} from '@qdrant/js-client-rest';
 
 const QDRANT_API_KEY = process.env.QDRANT_API_KEY;
@@ -18,26 +18,33 @@ async function get(req, res){
 
 async function del(req, res) {
   const {userId} = req.query;
-  const {namespace, docId} = req.body;
+  const {namespace, docIds} = req.body;
 
   const client = new QdrantClient({
     url: QDRANT_URL,
     apiKey: QDRANT_API_KEY,
   });
 
-  return client.delete(namespace, {
-    filter: {
-      must: [
-        {
-          key: "ref_doc_id",
-          match: {
-            value: docId,
-          },
+  const promises = []
+  for(const docId of docIds){
+    promises.push(
+      client.delete(namespace, {
+        filter: {
+          must: [
+            {
+              key: "ref_doc_id",
+              match: {
+                value: docId,
+              },
+            },
+          ],
         },
-      ],
-    },
-  })
-  .then(()=> DeleteDocument(userId, docId))
+      })
+    );
+  }
+
+  return Promise.all(promises) 
+  .then(()=> DeleteDocuments(docIds))
   .then(()=> res.status(200).end())
   .catch((...args) => {
     res.status(500).end(); 
